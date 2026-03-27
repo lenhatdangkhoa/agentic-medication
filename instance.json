@@ -1,0 +1,30 @@
+{
+  "instance_id": "agentic-medication_2026-03-27T15-04-13-906Z",
+  "idea_maturity": "",
+  "created_at": "2026-03-27T15:04:13.906Z",
+  "instance": "/Users/khoale/bibm_2026/agentic-medication/instance.json",
+  "category": "",
+  "Survey": {
+    "references": "/Users/khoale/bibm_2026/agentic-medication/Survey/references",
+    "reports": "/Users/khoale/bibm_2026/agentic-medication/Survey/reports"
+  },
+  "Ideation": {
+    "ideas": "/Users/khoale/bibm_2026/agentic-medication/Ideation/ideas",
+    "references": "/Users/khoale/bibm_2026/agentic-medication/Ideation/references"
+  },
+  "Experiment": {
+    "code_references": "/Users/khoale/bibm_2026/agentic-medication/Experiment/code_references",
+    "datasets": "/Users/khoale/bibm_2026/agentic-medication/Experiment/datasets",
+    "core_code": "/Users/khoale/bibm_2026/agentic-medication/Experiment/core_code",
+    "analysis": "/Users/khoale/bibm_2026/agentic-medication/Experiment/analysis"
+  },
+  "Publication": {
+    "paper": "/Users/khoale/bibm_2026/agentic-medication/Publication/paper"
+  },
+  "Promotion": {
+    "homepage": "/Users/khoale/bibm_2026/agentic-medication/Promotion/homepage",
+    "slides": "/Users/khoale/bibm_2026/agentic-medication/Promotion/slides",
+    "audio": "/Users/khoale/bibm_2026/agentic-medication/Promotion/audio",
+    "video": "/Users/khoale/bibm_2026/agentic-medication/Promotion/video"
+  }
+}

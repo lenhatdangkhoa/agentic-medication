@@ -1,0 +1,693 @@
+{
+  "config": {
+    "num_patients": 60,
+    "num_weeks": 8,
+    "seed": 7
+  },
+  "models": {
+    "threshold_template": {
+      "model_name": "threshold_template",
+      "metrics": {
+        "num_patient_weeks": 480,
+        "clinically_relevant_precision": 0.5542,
+        "unsafe_suggestion_rate": 0.1417,
+        "irrelevant_suggestion_rate": 0.3042,
+        "clinician_acceptance_rate": 0.3125,
+        "dispatch_precision": 1.0,
+        "anomaly_detection_precision": 0.996,
+        "anomaly_detection_recall": 0.3568
+      },
+      "sample_cases": [
+        {
+          "patient_id": "patient_0000",
+          "week_index": 0,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 2,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": [
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 3,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": [
+            "activity_drop",
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 4,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "follow_up_visit",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 5,
+          "scenario": "stable_recovery",
+          "ground_truth_action": "monitor_only",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 6,
+          "scenario": "rising_resting_hr_trend",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 7,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 0,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "follow_up_visit",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        }
+      ]
+    },
+    "summary_only_assistant": {
+      "model_name": "summary_only_assistant",
+      "metrics": {
+        "num_patient_weeks": 480,
+        "clinically_relevant_precision": 0.6729,
+        "unsafe_suggestion_rate": 0.1479,
+        "irrelevant_suggestion_rate": 0.1792,
+        "clinician_acceptance_rate": 0.3021,
+        "dispatch_precision": 1.0,
+        "anomaly_detection_precision": 0.996,
+        "anomaly_detection_recall": 0.3568
+      },
+      "sample_cases": [
+        {
+          "patient_id": "patient_0000",
+          "week_index": 0,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 2,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": [
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 3,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": [
+            "activity_drop",
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 4,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 5,
+          "scenario": "stable_recovery",
+          "ground_truth_action": "monitor_only",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 6,
+          "scenario": "rising_resting_hr_trend",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 7,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 0,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        }
+      ]
+    },
+    "agentic_rpm": {
+      "model_name": "agentic_rpm",
+      "metrics": {
+        "num_patient_weeks": 480,
+        "clinically_relevant_precision": 0.6708,
+        "unsafe_suggestion_rate": 0.0958,
+        "irrelevant_suggestion_rate": 0.2333,
+        "clinician_acceptance_rate": 0.4479,
+        "dispatch_precision": 1.0,
+        "anomaly_detection_precision": 0.996,
+        "anomaly_detection_recall": 0.3568
+      },
+      "sample_cases": [
+        {
+          "patient_id": "patient_0000",
+          "week_index": 0,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 2,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": [
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 3,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": [
+            "activity_drop",
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 4,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 5,
+          "scenario": "stable_recovery",
+          "ground_truth_action": "monitor_only",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 6,
+          "scenario": "rising_resting_hr_trend",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 7,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 0,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        }
+      ]
+    },
+    "ablation_no_retrieval": {
+      "model_name": "ablation_no_retrieval",
+      "metrics": {
+        "num_patient_weeks": 480,
+        "clinically_relevant_precision": 0.5917,
+        "unsafe_suggestion_rate": 0.1458,
+        "irrelevant_suggestion_rate": 0.2625,
+        "clinician_acceptance_rate": 0.4708,
+        "dispatch_precision": 1.0,
+        "anomaly_detection_precision": 0.996,
+        "anomaly_detection_recall": 0.3568
+      },
+      "sample_cases": [
+        {
+          "patient_id": "patient_0000",
+          "week_index": 0,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 2,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": [
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 3,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": [
+            "activity_drop",
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 4,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 5,
+          "scenario": "stable_recovery",
+          "ground_truth_action": "monitor_only",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 6,
+          "scenario": "rising_resting_hr_trend",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 7,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 0,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        }
+      ]
+    },
+    "ablation_no_patient_history": {
+      "model_name": "ablation_no_patient_history",
+      "metrics": {
+        "num_patient_weeks": 480,
+        "clinically_relevant_precision": 0.5979,
+        "unsafe_suggestion_rate": 0.1417,
+        "irrelevant_suggestion_rate": 0.2604,
+        "clinician_acceptance_rate": 0.4375,
+        "dispatch_precision": 1.0,
+        "anomaly_detection_precision": 0.996,
+        "anomaly_detection_recall": 0.3568
+      },
+      "sample_cases": [
+        {
+          "patient_id": "patient_0000",
+          "week_index": 0,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 2,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": [
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 3,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": [
+            "activity_drop",
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 4,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 5,
+          "scenario": "stable_recovery",
+          "ground_truth_action": "monitor_only",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 6,
+          "scenario": "rising_resting_hr_trend",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "reject_as_irrelevant",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 7,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "revise_needed",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 0,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        }
+      ]
+    },
+    "ablation_no_clinician_gate": {
+      "model_name": "ablation_no_clinician_gate",
+      "metrics": {
+        "num_patient_weeks": 480,
+        "clinically_relevant_precision": 0.6708,
+        "unsafe_suggestion_rate": 0.0958,
+        "irrelevant_suggestion_rate": 0.2333,
+        "clinician_acceptance_rate": 1.0,
+        "dispatch_precision": 0.4479,
+        "anomaly_detection_precision": 0.996,
+        "anomaly_detection_recall": 0.3568
+      },
+      "sample_cases": [
+        {
+          "patient_id": "patient_0000",
+          "week_index": 0,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 2,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 3,
+          "scenario": "reduced_activity_with_sleep_disruption",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "activity_drop",
+            "sleep_decline"
+          ]
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 4,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 5,
+          "scenario": "stable_recovery",
+          "ground_truth_action": "monitor_only",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 6,
+          "scenario": "rising_resting_hr_trend",
+          "ground_truth_action": "follow_up_visit",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0000",
+          "week_index": 7,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "monitor_only",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 0,
+          "scenario": "spurious_single_day_outlier",
+          "ground_truth_action": "repeat_measurement",
+          "predicted_action": "repeat_measurement",
+          "clinician_review": "accept",
+          "dominant_anomalies": []
+        },
+        {
+          "patient_id": "patient_0001",
+          "week_index": 1,
+          "scenario": "medication_nonadherence_pattern",
+          "ground_truth_action": "medication_review",
+          "predicted_action": "medication_review",
+          "clinician_review": "accept",
+          "dominant_anomalies": [
+            "nonadherence"
+          ]
+        }
+      ]
+    }
+  }
+}

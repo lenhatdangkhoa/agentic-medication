@@ -1,0 +1,125 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{Agentic Remote Patient Monitoring with Clinician-Reviewable Next-Step Recommendations from Synthetic Multimodal Patient Data}
+
+\author{
+\IEEEauthorblockN{Author Name}
+\IEEEauthorblockA{Institution\\
+City, Country\\
+email@example.com}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Remote patient monitoring (RPM) systems increasingly collect multimodal patient-generated health data such as activity, sleep, heart rate, and symptom reports, yet many clinical workflows still rely on manual review of raw trends or simple alerting rules. This leaves a gap between data acquisition and safe, actionable clinical decision support. This paper studies whether an agentic RPM system can convert longitudinal patient-generated data into clinician-reviewable weekly summaries and next-step recommendations without increasing unsafe or irrelevant suggestions. The proposed system is evaluated in simulation and combines structured weekly summarization, interpretable anomaly detection, retrieval-backed compatibility checking over patient history and a curated safety knowledge base, clinician approval, and downstream task dispatch. A synthetic patient-week benchmark is introduced with multimodal trajectories, anomaly scenarios, ground-truth action labels, unsafe action sets, and simulated clinician review outcomes. In an initial comparison over 480 patient-weeks, the full Agentic RPM system improves clinically relevant recommendation precision from 0.5542 to 0.6708 relative to a Threshold+Template baseline, reduces unsafe suggestion rate from 0.1417 to 0.0958, and increases clinician acceptance from 0.3125 to 0.4479. Compared with a strong Summary-Only Assistant baseline, the proposed system attains similar relevance precision while achieving lower unsafe suggestion rate and higher clinician acceptance. These findings suggest that retrieval-backed compatibility reasoning and clinician gating can improve safety-oriented RPM action drafting in a simulation-first setting.
+\end{abstract}
+
+\begin{IEEEkeywords}
+remote patient monitoring, clinician-in-the-loop AI, patient-generated health data, clinical decision support, retrieval-augmented generation, safety evaluation
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Remote patient monitoring has expanded the range of data available to clinicians between encounters. Consumer wearables, home measurements, and symptom logging tools can now capture patient-generated signals such as daily steps, sleep regularity, heart-rate variation, medication adherence, and self-reported symptoms. This growth in patient-generated health data has created an opportunity for earlier detection of concerning trends and more continuous management of chronic conditions. At the same time, it has exposed a workflow problem. Continuous monitoring is only useful when the collected data can be transformed into concise, interpretable, and clinically actionable outputs. In many current settings, clinicians are still asked to review dashboards, trend plots, or threshold-triggered alerts rather than receiving structured weekly assessments and reviewable next-step options.
+
+This gap is especially important for remote patient monitoring because the main operational burden is not merely identifying whether a signal changed. The clinically relevant task is deciding whether the observed pattern warrants no action, repeat measurement, follow-up, laboratory testing, medication review, or urgent escalation. Systems that only flag anomalies leave the final reasoning burden almost entirely on the clinician, while systems that make unconstrained treatment recommendations risk producing unsafe or irrelevant suggestions. A practical middle ground is a clinician-in-the-loop workflow in which an intelligent agent drafts a constrained next-step recommendation, surfaces the supporting evidence, and routes the proposal for clinician approval before any downstream action is dispatched.
+
+Recent literature supports the feasibility of individual components of such a workflow, but not the integrated pipeline itself. RPM platforms and patient-generated health data systems have shown that longitudinal wearable signals can be collected and presented to clinicians \cite{arun2024remotehealthconnect,activeDCM2024,ye2024pghd}. Healthcare time-series studies have advanced anomaly detection \cite{khanizadeh2025anomaly,ferrara2024wearable}, and large language models with retrieval or guideline grounding have shown promise for bounded clinical decision support tasks \cite{oniani2024guidelines,li2025garg,prabha2025adaptive}. Medication-safety work has further suggested that human-plus-AI co-pilot designs may be safer than autonomous clinical support \cite{ong2025medsafety}. However, these threads remain largely disconnected. There is still limited evaluation of end-to-end systems that translate multimodal patient-generated data into weekly clinician summaries, clinician-reviewable next-step recommendations, safety checks, and downstream task routing.
+
+This paper addresses that gap through a simulation-first study of an agentic RPM workflow. The central research question is whether an agentic system can draft clinician-reviewable next-step recommendations from RPM data without increasing unsafe or irrelevant suggestions. Rather than claiming real-world deployment readiness, the paper focuses on a controlled synthetic environment that makes the workflow measurable. The proposed system ingests synthetic multimodal patient data, generates structured weekly summaries, detects concerning trends, retrieves patient-history and compatibility information, drafts one of a small set of constrained action classes, and routes the output through a simulated clinician review gate. The clinician remains the decision authority, and downstream task dispatch only occurs after approval.
+
+The main contributions are as follows:
+\begin{itemize}
+\item A simulation-first framework for evaluating agentic RPM at the patient-week level, including multimodal synthetic trajectories, anomaly scenarios, action labels, unsafe action sets, and clinician-review outcomes.
+\item An integrated workflow that connects weekly summary generation, anomaly interpretation, retrieval-backed compatibility checking, clinician review, and downstream task dispatch.
+\item An empirical comparison against rule-based and partially grounded baselines, showing improved safety-oriented action drafting over a Threshold+Template system while remaining competitive with a strong summary-only baseline on relevance.
+\end{itemize}
+
+\section{Related Work}
+
+\subsection{Remote Patient Monitoring and Patient-Generated Health Data}
+
+Recent RPM research has increasingly emphasized continuous data capture and clinician-facing interfaces. Arun \textit{et al.} presented RemoteHealthConnect, a wearable-integrated monitoring platform with custom visualization aimed at improving clinician awareness of patient status \cite{arun2024remotehealthconnect}. Smartwatch-based RPM platforms have similarly focused on longitudinal collection, feedback mechanisms, and deployment feasibility in real monitoring contexts \cite{activeDCM2024}. At the health informatics level, the role of patient-generated health data in decision support has become more explicit. Nazi \textit{et al.} and Ye \textit{et al.} describe PGHD as a clinically important source of information and review AI support for integrating PGHD with electronic health records in decision support pipelines \cite{nazi2024pghd,ye2024pghd}. The challenge is no longer only collecting RPM data. The more difficult question is how to transform heterogeneous longitudinal signals into safe and reviewable next steps.
+
+\subsection{Wearable and Healthcare Time-Series Anomaly Detection}
+
+Wearable and healthcare time-series analysis has become a central research area as consumer devices and home monitoring platforms generate larger longitudinal datasets. Ferrara surveyed the use of large models and related methods for wearable sensor-based health monitoring and behavioral modeling \cite{ferrara2024wearable}. Explainability has also become a prominent concern in wearable analytics \cite{abdelaal2024xai}. More specifically, anomaly detection methods in healthcare time series have matured as decision-support components, yet most remain detection-centric. Khanizadeh \textit{et al.} framed anomaly detection as a mechanism for supporting smart medical decisions, but the output remained focused on identifying abnormal patterns rather than converting those patterns into constrained next-step actions \cite{khanizadeh2025anomaly}.
+
+\subsection{Large Language Models and Retrieval-Augmented Clinical Decision Support}
+
+Large language models are increasingly studied for clinical support tasks, particularly when combined with explicit grounding mechanisms. Oniani \textit{et al.} showed that incorporating clinical practice guidelines can improve LLM-based decision support in bounded outpatient tasks \cite{oniani2024guidelines}. Li \textit{et al.} combined generation, retrieval, and guideline support for diagnosis-oriented reasoning \cite{li2025garg}. Additional work on adaptive retrieval and emergency-care decision support has reinforced the view that LLM performance in clinical settings depends heavily on what evidence is retrieved and how it is used \cite{prabha2025adaptive,noll2025emergency}.
+
+\subsection{Medication Recommendation and Medication Safety}
+
+Medication recommendation and medication-safety research offers a second important foundation for this work. Several studies have improved personalized medication recommendation from longitudinal visit histories, showing the value of patient context and temporal information \cite{mi2024acdnet,chairat2024medrec}. At the same time, medication-safety studies have shown that AI assistance is most promising when used as a co-pilot rather than an autonomous actor \cite{bucker2024pharm,ong2025medsafety}. Drug-drug interaction and compatibility modeling further reinforce the need for explicit safety layers in medication-related decision support \cite{luo2024ddi}.
+
+\subsection{Gap Summary}
+
+Existing work addresses RPM data collection, anomaly detection, LLM-based clinical support, and medication safety, but usually as separate problem classes. There is still no strong benchmark or widely adopted workflow for converting multimodal patient-generated data into weekly clinician summaries, clinician-reviewable next-step recommendations, compatibility checks, and downstream task routing within a single integrated evaluation. This paper positions itself in that gap and argues that a simulation-first study is the appropriate first step before any real-world system integration.
+
+\section{System Overview}
+
+The proposed Agentic RPM workflow is designed as a clinician-in-the-loop pipeline rather than an autonomous treatment system. The pipeline begins with synthetic multimodal patient-generated data representing daily activity, sleep, heart-rate trends, symptom burden, medication adherence, and optional home measurements. These data are aggregated at the end of each week and combined with a short longitudinal history that includes prior abnormal labs, previous clinician actions, unresolved issues, and medication constraints.
+
+The first processing stage produces a structured weekly summary. The second stage performs interpretable anomaly detection using explicit features such as change in step count, change in resting heart rate, change in sleep duration, symptom burden, and nonadherence count. The third stage drafts a next-step recommendation from a constrained action ontology: monitor only, repeat measurement, lab order, medication review, follow-up visit, or urgent escalation. The full Agentic RPM model retrieves compatibility-relevant context from patient history and a curated safety knowledge base and uses it to adjust or reroute candidate actions.
+
+The fourth stage is clinician review. Every proposed action is evaluated by a clinician simulator that returns one of four outcomes: accept, reject as unsafe, reject as irrelevant, or revise needed. The fifth stage is downstream task dispatch. Only accepted actions generate executable tasks, such as patient messages, laboratory tasks, scheduling actions, or clinician notes. This separation distinguishes recommendation quality from operational workflow correctness.
+
+\section{Simulation Environment and Experimental Protocol}
+
+The experiment uses the patient-week as the unit of evaluation. Each patient-week consists of a synthetic patient profile, seven days of multimodal observations, a longitudinal history window, one primary anomaly scenario, and a ground-truth preferred action. The synthetic cohort contains 60 patients over 8 weeks in the current prototype run, resulting in 480 patient-weeks, although the protocol is designed to scale to larger cohorts in later experiments.
+
+Static patient profiles include age group, sex, condition cluster, risk tier, current medications, medication constraints, recent lab flags, and physiological baselines. Daily observations include step count, resting heart rate, active heart rate, sleep timing, sleep duration, sleep irregularity, symptom score, symptom tags, medication adherence, and optional home measurements. Longitudinal history includes prior clinician actions, prior abnormal labs, and unresolved issues. The scenario library contains stable recovery, spurious outliers, reduced activity with sleep disruption, rising resting heart-rate trend, medication nonadherence, possible fluid- or weight-related decline, and arrhythmia-like patterns.
+
+Three main model families are compared. The first is a Threshold+Template baseline that uses simple anomaly thresholds, a static weekly summary template, and direct anomaly-to-action mapping. The second is a Summary-Only Assistant that proposes actions from weekly summary signals without retrieval-backed compatibility logic. The third is the full Agentic RPM model, which augments the summary with retrieval-based compatibility checks over patient history and a curated safety knowledge base. Three ablations remove retrieval, remove patient history, or remove clinician gating.
+
+The primary metrics are clinically relevant recommendation precision, unsafe suggestion rate, irrelevant suggestion rate, and clinician acceptance rate. Secondary metrics include anomaly detection precision, anomaly detection recall, and dispatch precision.
+
+\section{Results}
+
+The initial single-seed experiment provides a clear baseline-versus-agentic comparison. The Threshold+Template model achieved clinically relevant precision of 0.5542, unsafe suggestion rate of 0.1417, irrelevant suggestion rate of 0.3042, and clinician acceptance rate of 0.3125. The full Agentic RPM model improved clinically relevant precision to 0.6708 while reducing unsafe suggestion rate to 0.0958 and increasing clinician acceptance to 0.4479. Relative to the Threshold+Template baseline, this is the most important result in the paper.
+
+The strongest non-agentic comparator was the Summary-Only Assistant, which achieved clinically relevant precision of 0.6729. This value is effectively tied with the Agentic RPM result on relevance, but the safety profile differs. The Summary-Only Assistant produced a higher unsafe suggestion rate of 0.1479 and a lower clinician acceptance rate of 0.3021. This suggests that better summary-driven heuristics can close part of the gap in raw relevance, but the explicit retrieval and compatibility layer still improves safety and clinician trust.
+
+Ablation analysis reinforces this interpretation. Removing retrieval reduced clinically relevant precision to 0.5917 and increased unsafe suggestion rate to 0.1458. Removing patient history produced similar degradation, with clinically relevant precision of 0.5979 and unsafe suggestion rate of 0.1417. Removing the clinician gate produced perfect nominal acceptance by construction, but dispatch precision fell to 0.4479. One clear bottleneck remains the anomaly module. Across systems, anomaly detection precision was very high at 0.996, but anomaly recall was only 0.3568.
+
+\begin{table}[t]
+\caption{Main experimental comparison on 480 patient-weeks.}
+\label{tab:main-results}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Model & Rel. Prec. & Unsafe Rate & Clin. Accept. \\
+\midrule
+Threshold+Template & 0.5542 & 0.1417 & 0.3125 \\
+Summary-Only Assistant & 0.6729 & 0.1479 & 0.3021 \\
+Agentic RPM & 0.6708 & 0.0958 & 0.4479 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+
+The initial findings suggest that the main value of an agentic RPM workflow may lie more in safety-oriented recommendation shaping than in raw relevance gains alone. The strongest baseline in this study, the Summary-Only Assistant, nearly matches the full model on clinically relevant precision. However, it does so while producing more unsafe suggestions and substantially lower clinician acceptance. This supports an important paper claim: retrieval-backed compatibility logic and explicit clinician review are meaningful workflow components even when summary-driven pattern matching is already strong.
+
+The study has several limitations. First, all data are synthetic. Second, the current recommendation policies are still heuristic. Third, the present results come from a single seed and should therefore be treated as preliminary rather than final statistical evidence. Fourth, the clinician-review process is simulated through deterministic label rules rather than expert annotation. Future work should target stronger anomaly modeling, repeated-seed analysis, richer retrieval sources, and eventual integration with OpenClaw and Apple Health once the workflow is validated in simulation.
+
+\section{Conclusion}
+
+This paper presented a simulation-first agentic remote patient monitoring workflow designed to transform multimodal patient-generated health data into clinician-reviewable weekly summaries and next-step recommendations. The proposed system integrates structured weekly summarization, interpretable anomaly detection, retrieval-backed compatibility checking, clinician review, and downstream task dispatch. In an initial synthetic benchmark, the full Agentic RPM model improved clinically relevant recommendation precision and clinician acceptance while reducing unsafe suggestion rate relative to a Threshold+Template baseline. Compared with a strong summary-only comparator, it maintained similar relevance while improving safety and reviewability. These findings support the feasibility of simulation-first evaluation for agentic RPM workflows and motivate future work toward more realistic data, stronger models, and eventual OpenClaw-based deployment.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

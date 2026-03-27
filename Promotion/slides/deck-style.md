@@ -1,0 +1,8 @@
+- Canvas: 1920x1080, white background
+- Accent color: #0F4C81 deep blue
+- Secondary accent: #4F6D7A slate
+- Text color: #1C1C1C near-black
+- Use clean technical conference styling with minimal decoration
+- Prefer workflow diagrams, compact metric tables, and one highlighted result number per slide
+- Avoid gradient-heavy backgrounds and promotional styling
+- Keep slides readable in PDF and projector settings

@@ -1,0 +1,290 @@
+{
+  "schemaVersion": "1.1",
+  "templateId": "agent-generated",
+  "meta": {
+    "title": "Agentic Remote Patient Monitoring for Clinician-Reviewable Next-Step Recommendations from Synthetic Multimodal Patient Data",
+    "lead_author": "",
+    "target_venue": "IEEE BIBM 2026",
+    "date": "2026-03-27"
+  },
+  "sections": {
+    "survey": {
+      "literature_scope": "Survey recent work from 2023-2026 on remote patient monitoring, patient-generated health data integration, wearable and multivariate healthcare time-series anomaly detection, large language models for clinical decision support, retrieval-augmented medical reasoning, and medication-safety support. Include papers that address clinician-facing summarization, longitudinal monitoring, recommendation generation, guideline grounding, compatibility or drug-safety checking, and human-in-the-loop approval. Exclude papers focused only on consumer wellness prediction without clinician workflow relevance.",
+      "key_references": [
+        "Arun et al., RemoteHealthConnect: Innovating patient monitoring with wearable technology and custom visualization (Digital Health, 2024)",
+        "Ye et al., The role of artificial intelligence for the application of integrating electronic health records and patient-generated data in clinical decision support (AMIA Joint Summits on Translational Science Proceedings, 2024)",
+        "Khanizadeh et al., Smart data-driven medical decisions through collective and individual anomaly detection in healthcare time series (International Journal of Medical Informatics, 2025)",
+        "Oniani et al., Enhancing Large Language Models for Clinical Decision Support by Incorporating Clinical Practice Guidelines (IEEE ICHI, 2024)",
+        "Li et al., Refine Medical Diagnosis Using Generation Augmented Retrieval and Clinical Practice Guidelines (IEEE Journal of Biomedical and Health Informatics, 2025)",
+        "Ong et al., Large language model as clinical decision support system augments medication safety in 16 clinical specialties (Cell Reports Medicine, 2025)"
+      ],
+      "synthesis_summary": "The literature now suggests that the proposed system is best framed as an integration problem across four partially connected lines of work: RPM and PGHD platforms, wearable anomaly detection, LLM or RAG clinical decision support, and medication-safety decision support. Existing systems demonstrate the feasibility of collecting wearable data, summarizing longitudinal information, grounding LLM reasoning with retrieval or guidelines, and supporting medication safety with human oversight. However, these capabilities are largely studied in isolation. The reviewed papers do not provide a mature end-to-end benchmark for converting multimodal patient-generated data into weekly clinician summaries, clinician-reviewable next-step recommendations, compatibility checks, and downstream task routing within a single workflow. This supports a simulation-first contribution focused on workflow evaluation rather than deployment claims.",
+      "open_gaps": [
+        "There is no strong end-to-end benchmark for transforming multimodal patient-generated RPM streams into clinician-reviewable next-step recommendations with explicit safety checks.",
+        "Current anomaly-detection studies usually stop at flagging abnormal trajectories rather than linking those findings to action generation and triage.",
+        "Human-in-the-loop evaluation appears important for medication safety, but it has not been clearly extended to weekly RPM recommendation drafting workflows.",
+        "Patient history retrieval, guideline grounding, and compatibility or drug-safety checking are usually treated as separate modules rather than one integrated recommendation pipeline.",
+        "There is room for a simulation framework that jointly models synthetic patient trajectories, recommendation proposals, clinician approval or rejection, and downstream task dispatch."
+      ]
+    },
+    "ideation": {
+      "research_goal": "Evaluate whether a clinician-in-the-loop, agentic remote patient monitoring pipeline can transform synthetic multimodal patient-generated health data into weekly summaries and next-step action drafts that improve recommendation relevance and actionability without increasing unsafe or irrelevant suggestions relative to simpler baselines.",
+      "problem_framing": "The study focuses on a simulation-first workflow rather than real-world deployment. The system ingests synthetic wearable and health-log signals such as step count, sleep schedule, heart rate, symptoms, and medication adherence; generates structured weekly clinician summaries; detects concerning trends or anomalies; retrieves relevant patient-history and safety context; drafts a constrained set of next-step actions such as monitoring, repeat measurement, lab work, medication review, follow-up visit, or urgent escalation; and routes the proposal to a clinician for approval or rejection before any downstream task is dispatched. OpenClaw and Apple Health integration remain future work and are not part of the validated claims.",
+      "evidence_plan": "Build a synthetic patient simulator with latent ground-truth action labels, anomaly scenarios, patient history, and compatibility constraints. Compare a full agentic RPM pipeline against a threshold-plus-template baseline, a summary-only assistant, and ablations that remove retrieval, patient history, or the clinician gate. Use the recent-work survey to define anomaly categories, action ontology, compatibility rules, and evaluation criteria.",
+      "success_criteria": [
+        "The system produces structured weekly summaries that preserve the dominant trends and anomaly cues in the simulated RPM streams.",
+        "Recommendation proposals achieve higher clinically relevant precision or actionability than a threshold-plus-template baseline.",
+        "Unsafe, incompatible, or irrelevant suggestion rates are measured explicitly and do not increase relative to the strongest simpler baseline.",
+        "Retrieval-backed compatibility checking and clinician review each contribute measurable safety value in ablation studies."
+      ]
+    },
+    "experiment": {
+      "hypothesis_or_validation_goal": "At the patient-week level, a simulation-first, clinician-in-the-loop agentic RPM pipeline that combines interpretable anomaly detection with retrieval-based compatibility checks will achieve higher clinically relevant recommendation precision and clinician acceptance than simpler baselines while maintaining or reducing unsafe and irrelevant suggestion rates.",
+      "dataset_or_data_source": "Synthetic multimodal patient-generated health data, including simulated daily steps, sleep timing and duration, heart-rate trends, symptom events, medication history, prior lab history, and clinician-review outcomes. Synthetic Apple Health style schemas may be used to make the simulation realistic without claiming deployment access.",
+      "method_or_protocol": "Use the patient-week as the primary evaluation unit. Generate a synthetic cohort of 300-1000 patients over 8-12 simulated weeks with static profiles, daily multimodal RPM streams, longitudinal history, anomaly scenarios, ground-truth preferred actions, unsafe action sets, and irrelevant action sets. The main pipeline contains a structured weekly summarizer, interpretable anomaly detector, retrieval-backed recommendation layer over patient history and a curated compatibility knowledge base, simulated clinician review policy, and downstream task dispatch that activates only after approval. The allowed action classes are monitor-only, repeat measurement, lab order, medication review, follow-up visit, and urgent escalation. Compare the full system against a Threshold+Template baseline and a Summary-Only Assistant baseline, with ablations that remove retrieval, patient history, clinician gating, or anomaly detection.",
+      "evaluation_plan": "Primary metrics are clinically relevant recommendation precision, unsafe suggestion rate, irrelevant suggestion rate, and clinician acceptance rate. Secondary metrics are summary completeness, anomaly detection precision and recall, compatibility-check error rate, and dispatch precision. Report results by risk tier, anomaly type, action class, and medication-constraint status. Use repeated runs when stochastic components are present and report mean plus variance or confidence intervals. The main experimental question is whether retrieval grounding and clinician review improve safety-adjusted action quality over simpler baselines. Current runnable artifacts include Experiment/core_code/run_experiment.py, Experiment/analysis/comparison_results.json, Experiment/analysis/2026-03-27_threshold_template_baseline_summary.md, and Experiment/analysis/2026-03-27_comparison_results_summary.md. In the initial single-seed run, the full Agentic RPM system improved clinically relevant precision from 0.5542 to 0.6708 versus Threshold+Template, reduced unsafe suggestion rate from 0.1417 to 0.0958, and increased clinician acceptance from 0.3125 to 0.4479."
+    },
+    "publication": {
+      "paper_outline": "Title and abstract; introduction with clinical motivation, research question, and contributions; related work covering RPM and PGHD, wearable anomaly detection, LLM or RAG clinical decision support, and medication-safety support; system overview of weekly summarization, anomaly detection, retrieval-backed recommendation generation, clinician review, and task dispatch; simulation environment and experimental protocol; results comparing Threshold+Template, Summary-Only Assistant, Agentic RPM, and ablations; discussion of safety, limitations, and threats to validity; conclusion and future OpenClaw integration path.",
+      "figures_tables_plan": "Figure 1 system overview of data ingestion, anomaly detection, recommendation generation, clinician review, and task dispatch. Figure 2 synthetic patient trajectory examples and anomaly cases. Table 1 literature and capability comparison. Table 2 main evaluation metrics across baselines and ablations. Table 3 error analysis for unsafe or irrelevant recommendations.",
+      "artifact_plan": "Current publication artifacts include the markdown paper draft, paper outline, submission checklist, figures-and-tables package, verified core references list, simulation protocol, runnable experiment code, and saved comparison results. Later submission artifacts should add venue-formatted figures, repeated-seed result tables, and a full audited bibliography before final BIBM submission.",
+      "submission_checklist": [
+        "Simulation-only claims are explicit in the abstract, introduction, discussion, and conclusion.",
+        "The current draft reports the main baseline, strong non-agentic comparator, and ablation results.",
+        "Core references for RPM, PGHD, anomaly detection, LLM CDS, and medication safety have been verified against PubMed.",
+        "Figures and tables have a defined package and caption plan.",
+        "Remaining pre-submission work includes repeated-seed experiments, full bibliography audit, and rendered paper figures."
+      ]
+    },
+    "promotion": {
+      "slide_outline": "A 13-slide conference-style deck is defined in Promotion/slides/slide-outline.md, covering the clinical problem, prior-work gap, agentic RPM workflow, action space and safety design, synthetic evaluation setup, main results, ablations, limitations, and future OpenClaw integration path.",
+      "deck_style": "Deck styling is specified in Promotion/slides/deck-style.md with a white technical conference look, deep-blue accents, compact tables, workflow diagrams, and minimal visual noise.",
+      "tts_config": "Narration is specified in Promotion/slides/video-scripts.md and Promotion/audio/tts-plan.md, using concise academic voice-over suitable for a short conference presentation or demo walkthrough.",
+      "video_assembly_plan": "Promotion/video/video-assembly-plan.md defines a slide-image plus per-slide narration assembly workflow for a short conference-style presentation video.",
+      "homepage_plan": "Homepage content and assets are specified in Promotion/homepage/homepage-content.md and Promotion/homepage/homepage-asset-plan.md, with simulation-only scope, system overview, results snapshot, and future-work positioning."
+    }
+  },
+  "pipeline": {
+    "version": "1.1",
+    "mode": "plan",
+    "startStage": "survey",
+    "stages": {
+      "survey": {
+        "required_elements": [
+          "sections.survey.literature_scope",
+          "sections.survey.synthesis_summary"
+        ],
+        "optional_elements": [
+          "sections.survey.key_references",
+          "sections.survey.open_gaps"
+        ],
+        "quality_gate": [
+          "Recent literature from 2023-2026 covers RPM, patient-generated multimodal data, anomaly detection, LLM clinical support, and medication-safety retrieval.",
+          "The survey identifies concrete gaps that justify a simulation-first, clinician-in-the-loop agentic RPM paper."
+        ],
+        "task_blueprints": [
+          {
+            "id": "survey_collect_references",
+            "title": "Collect recent RPM, LLM-CDS, and medication-safety references",
+            "description": "Gather and triage recent papers on remote patient monitoring, wearable anomaly detection, clinician-facing summarization, retrieval-augmented medical reasoning, and safety-aware recommendation workflows.",
+            "taskType": "exploration",
+            "recommended_skills": [
+              "inno-deep-research",
+              "academic-researcher"
+            ]
+          },
+          {
+            "id": "survey_summarize_gaps",
+            "title": "Synthesize open gaps for simulation-first agentic RPM",
+            "description": "Summarize the literature into a concrete gap statement that motivates clinician-reviewable recommendations, safety metrics, and downstream task orchestration.",
+            "taskType": "analysis",
+            "recommended_skills": [
+              "academic-researcher",
+              "inno-deep-research"
+            ]
+          }
+        ],
+        "recommended_skills": [
+          "inno-deep-research",
+          "academic-researcher",
+          "dataset-discovery"
+        ]
+      },
+      "ideation": {
+        "required_elements": [
+          "sections.ideation.research_goal",
+          "sections.ideation.problem_framing"
+        ],
+        "optional_elements": [
+          "sections.ideation.evidence_plan",
+          "sections.ideation.success_criteria"
+        ],
+        "quality_gate": [
+          "The problem framing distinguishes simulation-only claims from future deployment claims.",
+          "The proposed contribution is testable against explicit relevance and safety criteria."
+        ],
+        "task_blueprints": [
+          {
+            "id": "ideation_explore_directions",
+            "title": "Refine the agentic RPM study design and comparison space",
+            "description": "Explore candidate system boundaries, baselines, action taxonomies, and clinician-review assumptions for the proposed RPM recommendation workflow.",
+            "taskType": "exploration",
+            "recommended_skills": [
+              "inno-idea-generation"
+            ]
+          },
+          {
+            "id": "ideation_select_direction",
+            "title": "Select the final study framing and contribution claims",
+            "description": "Compare candidate framings on novelty, feasibility, evaluation clarity, and BIBM fit, then lock the contribution claims and trade-offs.",
+            "taskType": "analysis",
+            "recommended_skills": [
+              "inno-idea-eval"
+            ]
+          }
+        ],
+        "recommended_skills": [
+          "inno-idea-generation",
+          "inno-idea-eval",
+          "inno-prepare-resources"
+        ]
+      },
+      "experiment": {
+        "required_elements": [
+          "sections.experiment.hypothesis_or_validation_goal",
+          "sections.experiment.method_or_protocol",
+          "sections.experiment.evaluation_plan"
+        ],
+        "optional_elements": [
+          "sections.experiment.dataset_or_data_source"
+        ],
+        "quality_gate": [
+          "The synthetic data generator, baselines, and ablations are specific enough to implement reproducibly.",
+          "Safety and relevance metrics are defined before experimentation and align with the paper hypothesis."
+        ],
+        "task_blueprints": [
+          {
+            "id": "experiment_define_protocol",
+            "title": "Implement the simulation protocol for agentic RPM recommendations",
+            "description": "Specify and build the synthetic patient simulator, anomaly detection pipeline, retrieval-backed recommendation module, clinician-review loop, and downstream task-dispatch logic.",
+            "taskType": "implementation",
+            "recommended_skills": [
+              "inno-experiment-dev",
+              "inno-code-survey"
+            ]
+          },
+          {
+            "id": "experiment_run_analysis",
+            "title": "Run baseline, ablation, and safety analyses",
+            "description": "Execute the evaluation protocol, compare against simpler baselines, and summarize where the agentic pipeline helps or fails on relevance and safety.",
+            "taskType": "analysis",
+            "recommended_skills": [
+              "inno-experiment-analysis"
+            ]
+          }
+        ],
+        "recommended_skills": [
+          "inno-code-survey",
+          "inno-experiment-dev",
+          "inno-experiment-analysis"
+        ]
+      },
+      "publication": {
+        "required_elements": [
+          "sections.publication.paper_outline",
+          "sections.publication.submission_checklist"
+        ],
+        "optional_elements": [
+          "sections.publication.figures_tables_plan",
+          "sections.publication.artifact_plan"
+        ],
+        "quality_gate": [
+          "The paper clearly separates validated simulation results from future deployment discussion.",
+          "The contribution narrative, figures, and reproducibility artifacts are coherent for BIBM submission."
+        ],
+        "task_blueprints": [
+          {
+            "id": "publication_outline_to_draft",
+            "title": "Expand the BIBM paper outline into a full draft",
+            "description": "Write the paper sections with explicit claim-evidence alignment, grounded related work, and a careful limitations section around simulation-only evaluation.",
+            "taskType": "writing",
+            "recommended_skills": [
+              "inno-paper-writing"
+            ]
+          },
+          {
+            "id": "publication_finalize_artifacts",
+            "title": "Finalize figures, tables, and reproducibility materials",
+            "description": "Prepare the workflow diagram, result tables, error analysis, and artifact package needed for the submission.",
+            "taskType": "writing",
+            "recommended_skills": [
+              "inno-paper-writing",
+              "inno-figure-gen"
+            ]
+          }
+        ],
+        "recommended_skills": [
+          "inno-paper-writing",
+          "inno-reference-audit",
+          "inno-rclone-to-overleaf"
+        ]
+      },
+      "promotion": {
+        "required_elements": [
+          "sections.promotion.slide_outline"
+        ],
+        "optional_elements": [
+          "sections.promotion.deck_style",
+          "sections.promotion.tts_config",
+          "sections.promotion.video_assembly_plan",
+          "sections.promotion.homepage_plan"
+        ],
+        "quality_gate": [
+          "The presentation materials accurately reflect the simulation scope and the clinician-in-the-loop design.",
+          "The homepage and deck communicate the technical workflow, safety framing, and future deployment path."
+        ],
+        "task_blueprints": [
+          {
+            "id": "promotion_draft_outline",
+            "title": "Draft slide outline and narration for the agentic RPM paper",
+            "description": "Create a concise conference presentation story around motivation, workflow, evaluation, safety analysis, and future work.",
+            "taskType": "scripting",
+            "recommended_skills": [
+              "making-academic-presentations"
+            ]
+          },
+          {
+            "id": "promotion_prepare_homepage",
+            "title": "Prepare project homepage content and asset plan",
+            "description": "Organize the homepage content around the problem, approach, key results, reproducibility assets, and future OpenClaw integration.",
+            "taskType": "delivery",
+            "recommended_skills": [
+              "making-academic-presentations"
+            ]
+          },
+          {
+            "id": "promotion_generate_slides",
+            "title": "Generate slide visuals from paper figures and workflow diagrams",
+            "description": "Turn the paper outline and figures into presentation-quality slides that preserve workflow clarity and evaluation takeaways.",
+            "taskType": "rendering",
+            "recommended_skills": [
+              "making-academic-presentations"
+            ]
+          },
+          {
+            "id": "promotion_generate_narration",
+            "title": "Generate narration assets for the paper walkthrough",
+            "description": "Prepare spoken narration or TTS inputs for a conference-style walkthrough of the simulator and results.",
+            "taskType": "narration",
+            "recommended_skills": [
+              "making-academic-presentations"
+            ]
+          }
+        ],
+        "recommended_skills": [
+          "making-academic-presentations"
+        ]
+      }
+    }
+  }
+}

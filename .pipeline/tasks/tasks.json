@@ -1,0 +1,625 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Refine literature scope for agentic RPM",
+        "description": "Tighten the survey boundary across RPM, multimodal patient-generated data, anomaly detection, LLM clinical support, and medication-safety retrieval.",
+        "status": "done",
+        "stage": "survey",
+        "priority": "high",
+        "dependencies": [],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.survey.literature_scope"
+        ],
+        "suggestedSkills": [
+          "academic-researcher"
+        ],
+        "sourceBlueprintId": "required_element.sections.survey.literature_scope",
+        "nextActionPrompt": "Task: Refine literature scope for agentic RPM\nStage: survey\nUser inputs: BIBM 2026 paper on a simulation-first agentic remote patient monitoring system using synthetic multimodal health data, anomaly detection, and clinician-reviewable next-step recommendations.\nSuggested skills: academic-researcher\nStage guidance: Define a precise recent-work search boundary, inclusion criteria, and exclusion criteria before deeper search.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 2,
+        "title": "Collect recent RPM, LLM-CDS, and medication-safety references",
+        "description": "Gather and triage recent papers on remote patient monitoring, wearable anomaly detection, clinician-facing summarization, retrieval-augmented medical reasoning, and safety-aware recommendation workflows.",
+        "status": "done",
+        "stage": "survey",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "taskType": "exploration",
+        "inputsNeeded": [
+          "sections.survey.literature_scope",
+          "sections.ideation.research_goal"
+        ],
+        "suggestedSkills": [
+          "inno-deep-research",
+          "academic-researcher"
+        ],
+        "sourceBlueprintId": "survey_collect_references",
+        "nextActionPrompt": "Task: Collect recent RPM, LLM-CDS, and medication-safety references\nStage: survey\nUser inputs: Survey recent work on remote patient monitoring, patient-generated multimodal data, anomaly detection, LLM clinical support, and medication-safety retrieval for a clinician-in-the-loop simulation paper.\nSuggested skills: inno-deep-research, academic-researcher\nQuality gate: Recent literature from 2023-2026 covers RPM, patient-generated multimodal data, anomaly detection, LLM clinical support, and medication-safety retrieval.\nStage guidance: Focus on real papers and organize them by problem setting, data type, method, and evaluation scope.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 3,
+        "title": "Synthesize open gaps for simulation-first agentic RPM",
+        "description": "Summarize the literature into a concrete gap statement that motivates clinician-reviewable recommendations, safety metrics, and downstream task orchestration.",
+        "status": "done",
+        "stage": "survey",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.survey.key_references",
+          "sections.survey.open_gaps"
+        ],
+        "suggestedSkills": [
+          "academic-researcher",
+          "inno-deep-research"
+        ],
+        "sourceBlueprintId": "survey_summarize_gaps",
+        "nextActionPrompt": "Task: Synthesize open gaps for simulation-first agentic RPM\nStage: survey\nUser inputs: Current paper goal is to test whether an agentic system can draft clinician-reviewable next-step recommendations from RPM data without increasing unsafe or irrelevant suggestions.\nSuggested skills: academic-researcher, inno-deep-research\nQuality gate: The survey identifies concrete gaps that justify a simulation-first, clinician-in-the-loop agentic RPM paper.\nStage guidance: Turn the collected papers into a defensible problem gap and scope statement.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 4,
+        "title": "Refine survey synthesis summary",
+        "description": "Rewrite the literature synthesis into a concise, source-grounded summary that supports the study motivation.",
+        "status": "done",
+        "stage": "survey",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.survey.synthesis_summary"
+        ],
+        "suggestedSkills": [
+          "academic-researcher"
+        ],
+        "sourceBlueprintId": "required_element.sections.survey.synthesis_summary",
+        "nextActionPrompt": "Task: Refine survey synthesis summary\nStage: survey\nUser inputs: Existing synthesis points to separate strands in RPM monitoring, LLM-based decision support, and retrieval-supported medical reasoning.\nSuggested skills: academic-researcher\nStage guidance: Keep the summary precise, evidence-based, and directly tied to the planned study design.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 5,
+        "title": "Review survey-stage quality gate",
+        "description": "Check that the literature scope and gap statement are specific enough to justify the proposed study.",
+        "status": "done",
+        "stage": "survey",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.survey.literature_scope",
+          "sections.survey.synthesis_summary",
+          "sections.survey.open_gaps"
+        ],
+        "suggestedSkills": [
+          "academic-researcher"
+        ],
+        "sourceBlueprintId": "quality_gate.survey",
+        "nextActionPrompt": "Task: Review survey-stage quality gate\nStage: survey\nUser inputs: Survey should cover recent work from 2023-2026 and justify a simulation-first, clinician-in-the-loop agentic RPM paper.\nSuggested skills: academic-researcher\nQuality gate: Recent literature from 2023-2026 covers RPM, patient-generated multimodal data, anomaly detection, LLM clinical support, and medication-safety retrieval; the survey identifies concrete gaps that justify a simulation-first, clinician-in-the-loop agentic RPM paper.\nStage guidance: Approve only if the survey boundary and open gaps are explicit and defensible.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 6,
+        "title": "Refine the agentic RPM study design and comparison space",
+        "description": "Explore candidate system boundaries, baselines, action taxonomies, and clinician-review assumptions for the proposed RPM recommendation workflow.",
+        "status": "done",
+        "stage": "ideation",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "taskType": "exploration",
+        "inputsNeeded": [
+          "sections.ideation.problem_framing",
+          "sections.ideation.evidence_plan"
+        ],
+        "suggestedSkills": [
+          "inno-idea-generation"
+        ],
+        "sourceBlueprintId": "ideation_explore_directions",
+        "nextActionPrompt": "Task: Refine the agentic RPM study design and comparison space\nStage: ideation\nUser inputs: The planned system produces weekly clinician summaries from synthetic RPM streams, detects anomalies, proposes actions, and sends them for clinician review.\nSuggested skills: inno-idea-generation\nStage guidance: Clarify what counts as an action, which baselines matter, and how the simulation will stay realistic without overclaiming deployment readiness.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 7,
+        "title": "Refine research goal",
+        "description": "Tighten the research goal into a precise claim and evaluation target suitable for BIBM.",
+        "status": "done",
+        "stage": "ideation",
+        "priority": "high",
+        "dependencies": [
+          6
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.ideation.research_goal"
+        ],
+        "suggestedSkills": [
+          "inno-idea-eval"
+        ],
+        "sourceBlueprintId": "required_element.sections.ideation.research_goal",
+        "nextActionPrompt": "Task: Refine research goal\nStage: ideation\nUser inputs: Test whether an agentic remote patient monitoring system can draft clinician-reviewable next-step recommendations from multimodal patient-generated health data without increasing unsafe or irrelevant suggestions.\nSuggested skills: inno-idea-eval\nStage guidance: Make the claim precise, measurable, and tightly aligned with the evaluation plan.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 8,
+        "title": "Refine problem framing",
+        "description": "Sharpen the system framing, role of clinician review, and future-work boundary around OpenClaw deployment.",
+        "status": "done",
+        "stage": "ideation",
+        "priority": "high",
+        "dependencies": [
+          7
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.ideation.problem_framing"
+        ],
+        "suggestedSkills": [
+          "inno-idea-eval"
+        ],
+        "sourceBlueprintId": "required_element.sections.ideation.problem_framing",
+        "nextActionPrompt": "Task: Refine problem framing\nStage: ideation\nUser inputs: Current scope is fully simulation-based, while OpenClaw or Apple Health integration is future work.\nSuggested skills: inno-idea-eval\nStage guidance: Ensure the framing clearly distinguishes validated simulation claims from aspirational deployment claims.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 9,
+        "title": "Select the final study framing and contribution claims",
+        "description": "Compare candidate framings on novelty, feasibility, evaluation clarity, and BIBM fit, then lock the contribution claims and trade-offs.",
+        "status": "done",
+        "stage": "ideation",
+        "priority": "medium",
+        "dependencies": [
+          8
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.ideation.research_goal",
+          "sections.ideation.problem_framing",
+          "sections.ideation.success_criteria"
+        ],
+        "suggestedSkills": [
+          "inno-idea-eval"
+        ],
+        "sourceBlueprintId": "ideation_select_direction",
+        "nextActionPrompt": "Task: Select the final study framing and contribution claims\nStage: ideation\nUser inputs: The paper targets BIBM 2026 and centers on clinician-reviewable recommendations, safety, and simulation-first validation.\nSuggested skills: inno-idea-eval\nQuality gate: The problem framing distinguishes simulation-only claims from future deployment claims; the proposed contribution is testable against explicit relevance and safety criteria.\nStage guidance: Finalize what the paper will and will not claim.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 10,
+        "title": "Review ideation-stage quality gate",
+        "description": "Validate that the contribution framing is specific, testable, and appropriately scoped.",
+        "status": "done",
+        "stage": "ideation",
+        "priority": "high",
+        "dependencies": [
+          9
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.ideation.research_goal",
+          "sections.ideation.problem_framing",
+          "sections.ideation.success_criteria"
+        ],
+        "suggestedSkills": [
+          "inno-idea-eval"
+        ],
+        "sourceBlueprintId": "quality_gate.ideation",
+        "nextActionPrompt": "Task: Review ideation-stage quality gate\nStage: ideation\nUser inputs: The proposed contribution should be measurable in terms of recommendation relevance, safety, and clinician review utility.\nSuggested skills: inno-idea-eval\nQuality gate: The problem framing distinguishes simulation-only claims from future deployment claims; the proposed contribution is testable against explicit relevance and safety criteria.\nStage guidance: Approve only if the scope is narrow enough to execute and strong enough to publish.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 11,
+        "title": "Refine hypothesis or validation goal",
+        "description": "Make the central validation hypothesis concrete enough to drive experiment design and ablation planning.",
+        "status": "done",
+        "stage": "experiment",
+        "priority": "high",
+        "dependencies": [
+          10
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.experiment.hypothesis_or_validation_goal"
+        ],
+        "suggestedSkills": [
+          "inno-experiment-analysis"
+        ],
+        "sourceBlueprintId": "required_element.sections.experiment.hypothesis_or_validation_goal",
+        "nextActionPrompt": "Task: Refine hypothesis or validation goal\nStage: experiment\nUser inputs: The agentic RPM pipeline should improve recommendation relevance while maintaining or reducing unsafe and irrelevant suggestions.\nSuggested skills: inno-experiment-analysis\nStage guidance: Convert the high-level hypothesis into measurable comparisons and expected effects.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 12,
+        "title": "Refine method or protocol",
+        "description": "Specify the simulation workflow, anomaly detector role, retrieval component, clinician review loop, and task dispatch path.",
+        "status": "done",
+        "stage": "experiment",
+        "priority": "high",
+        "dependencies": [
+          11
+        ],
+        "taskType": "implementation",
+        "inputsNeeded": [
+          "sections.experiment.method_or_protocol",
+          "sections.experiment.dataset_or_data_source"
+        ],
+        "suggestedSkills": [
+          "inno-experiment-dev",
+          "inno-code-survey"
+        ],
+        "sourceBlueprintId": "required_element.sections.experiment.method_or_protocol",
+        "nextActionPrompt": "Task: Refine method or protocol\nStage: experiment\nUser inputs: Synthetic daily steps, sleep, heart rate, symptoms, medication history, prior labs, anomaly detection, RAG-based compatibility checks, and clinician review are already in scope.\nSuggested skills: inno-experiment-dev, inno-code-survey\nStage guidance: Make the protocol implementable with explicit modules, inputs, and outputs.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 13,
+        "title": "Refine evaluation plan",
+        "description": "Define metrics, baselines, ablations, clinician-review assumptions, and error analysis targets.",
+        "status": "done",
+        "stage": "experiment",
+        "priority": "high",
+        "dependencies": [
+          12
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.experiment.evaluation_plan"
+        ],
+        "suggestedSkills": [
+          "inno-experiment-analysis"
+        ],
+        "sourceBlueprintId": "required_element.sections.experiment.evaluation_plan",
+        "nextActionPrompt": "Task: Refine evaluation plan\nStage: experiment\nUser inputs: Metrics should include summary quality, anomaly detection performance, recommendation relevance, unsafe suggestion rate, incompatibility rate, clinician acceptance rate, and task-dispatch precision.\nSuggested skills: inno-experiment-analysis\nStage guidance: Define the protocol before implementation drift sets in, and tie every metric back to the paper question.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:38:34Z"
+      },
+      {
+        "id": 14,
+        "title": "Implement the simulation protocol for agentic RPM recommendations",
+        "description": "Specify and build the synthetic patient simulator, anomaly detection pipeline, retrieval-backed recommendation module, clinician-review loop, and downstream task-dispatch logic.",
+        "status": "done",
+        "stage": "experiment",
+        "priority": "high",
+        "dependencies": [
+          13
+        ],
+        "taskType": "implementation",
+        "inputsNeeded": [
+          "sections.experiment.method_or_protocol",
+          "sections.experiment.evaluation_plan"
+        ],
+        "suggestedSkills": [
+          "inno-experiment-dev",
+          "inno-code-survey"
+        ],
+        "sourceBlueprintId": "experiment_define_protocol",
+        "nextActionPrompt": "Task: Implement the simulation protocol for agentic RPM recommendations\nStage: experiment\nUser inputs: Build a simulation-first system with anomaly detection, weekly summarization, retrieval-backed compatibility checks, clinician approval, and downstream task dispatch.\nSuggested skills: inno-experiment-dev, inno-code-survey\nQuality gate: The synthetic data generator, baselines, and ablations are specific enough to implement reproducibly.\nStage guidance: Start with the smallest end-to-end executable path and preserve hooks for ablation studies.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T18:46:44Z"
+      },
+      {
+        "id": 15,
+        "title": "Run baseline, ablation, and safety analyses",
+        "description": "Execute the evaluation protocol, compare against simpler baselines, and summarize where the agentic pipeline helps or fails on relevance and safety.",
+        "status": "done",
+        "stage": "experiment",
+        "priority": "high",
+        "dependencies": [
+          14
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.experiment.hypothesis_or_validation_goal",
+          "sections.experiment.evaluation_plan"
+        ],
+        "suggestedSkills": [
+          "inno-experiment-analysis"
+        ],
+        "sourceBlueprintId": "experiment_run_analysis",
+        "nextActionPrompt": "Task: Run baseline, ablation, and safety analyses\nStage: experiment\nUser inputs: The main question is whether the agentic system can draft clinician-reviewable recommendations without increasing unsafe or irrelevant suggestions.\nSuggested skills: inno-experiment-analysis\nQuality gate: Safety and relevance metrics are defined before experimentation and align with the paper hypothesis.\nStage guidance: Report quantitative outcomes and failure modes, not just aggregate wins.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:07:49Z"
+      },
+      {
+        "id": 16,
+        "title": "Review experiment-stage quality gate",
+        "description": "Validate that the protocol, safety metrics, and comparisons are rigorous enough for implementation and later paper claims.",
+        "status": "done",
+        "stage": "experiment",
+        "priority": "high",
+        "dependencies": [
+          15
+        ],
+        "taskType": "analysis",
+        "inputsNeeded": [
+          "sections.experiment.method_or_protocol",
+          "sections.experiment.evaluation_plan"
+        ],
+        "suggestedSkills": [
+          "inno-experiment-analysis"
+        ],
+        "sourceBlueprintId": "quality_gate.experiment",
+        "nextActionPrompt": "Task: Review experiment-stage quality gate\nStage: experiment\nUser inputs: The study must be reproducible, simulation-first, and explicit about safety and relevance metrics.\nSuggested skills: inno-experiment-analysis\nQuality gate: The synthetic data generator, baselines, and ablations are specific enough to implement reproducibly; safety and relevance metrics are defined before experimentation and align with the paper hypothesis.\nStage guidance: Approve only if the protocol is concrete enough to build and test without major ambiguity.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:07:49Z"
+      },
+      {
+        "id": 17,
+        "title": "Refine paper outline",
+        "description": "Turn the publication plan into a section-level outline aligned with the experiment design and expected evidence.",
+        "status": "done",
+        "stage": "publication",
+        "priority": "medium",
+        "dependencies": [
+          16
+        ],
+        "taskType": "writing",
+        "inputsNeeded": [
+          "sections.publication.paper_outline"
+        ],
+        "suggestedSkills": [
+          "inno-paper-writing"
+        ],
+        "sourceBlueprintId": "required_element.sections.publication.paper_outline",
+        "nextActionPrompt": "Task: Refine paper outline\nStage: publication\nUser inputs: Planned sections include motivation, related work, system design, synthetic data generation, experiments, discussion, and future real-world integration.\nSuggested skills: inno-paper-writing\nStage guidance: Keep the paper structure tightly aligned to the validated claims and evaluation outputs.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:12:03Z"
+      },
+      {
+        "id": 18,
+        "title": "Expand the BIBM paper outline into a full draft",
+        "description": "Write the paper sections with explicit claim-evidence alignment, grounded related work, and a careful limitations section around simulation-only evaluation.",
+        "status": "done",
+        "stage": "publication",
+        "priority": "medium",
+        "dependencies": [
+          17
+        ],
+        "taskType": "writing",
+        "inputsNeeded": [
+          "sections.publication.paper_outline",
+          "sections.survey.key_references",
+          "sections.experiment.evaluation_plan"
+        ],
+        "suggestedSkills": [
+          "inno-paper-writing"
+        ],
+        "sourceBlueprintId": "publication_outline_to_draft",
+        "nextActionPrompt": "Task: Expand the BIBM paper outline into a full draft\nStage: publication\nUser inputs: Paper should emphasize simulation-first validation, clinician review, safety framing, and future OpenClaw integration as future work.\nSuggested skills: inno-paper-writing\nQuality gate: The paper clearly separates validated simulation results from future deployment discussion.\nStage guidance: Maintain rigorous claim-evidence alignment and avoid overstating clinical readiness.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:12:03Z"
+      },
+      {
+        "id": 19,
+        "title": "Refine submission checklist",
+        "description": "Finalize the publication checklist for references, artifacts, safety framing, and reproducibility items.",
+        "status": "done",
+        "stage": "publication",
+        "priority": "medium",
+        "dependencies": [
+          18
+        ],
+        "taskType": "writing",
+        "inputsNeeded": [
+          "sections.publication.submission_checklist"
+        ],
+        "suggestedSkills": [
+          "inno-reference-audit"
+        ],
+        "sourceBlueprintId": "required_element.sections.publication.submission_checklist",
+        "nextActionPrompt": "Task: Refine submission checklist\nStage: publication\nUser inputs: Submission checklist should cover related work, synthetic cohort generation, baselines, safety metrics, and reproducibility artifacts.\nSuggested skills: inno-reference-audit\nStage guidance: Make the checklist concrete enough to drive the final submission phase.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:15:22Z"
+      },
+      {
+        "id": 20,
+        "title": "Finalize figures, tables, and reproducibility materials",
+        "description": "Prepare the workflow diagram, result tables, error analysis, and artifact package needed for the submission.",
+        "status": "done",
+        "stage": "publication",
+        "priority": "medium",
+        "dependencies": [
+          19
+        ],
+        "taskType": "writing",
+        "inputsNeeded": [
+          "sections.publication.figures_tables_plan",
+          "sections.publication.artifact_plan"
+        ],
+        "suggestedSkills": [
+          "inno-paper-writing",
+          "inno-figure-gen"
+        ],
+        "sourceBlueprintId": "publication_finalize_artifacts",
+        "nextActionPrompt": "Task: Finalize figures, tables, and reproducibility materials\nStage: publication\nUser inputs: Planned artifacts include a workflow diagram, synthetic trajectory examples, comparison tables, and error analysis for unsafe or irrelevant recommendations.\nSuggested skills: inno-paper-writing, inno-figure-gen\nQuality gate: The contribution narrative, figures, and reproducibility artifacts are coherent for BIBM submission.\nStage guidance: Build visuals that directly support the central claim and safety analysis.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:15:22Z"
+      },
+      {
+        "id": 21,
+        "title": "Review publication-stage quality gate",
+        "description": "Validate that the planned draft, visuals, and artifacts support a coherent BIBM-ready submission.",
+        "status": "done",
+        "stage": "publication",
+        "priority": "high",
+        "dependencies": [
+          20
+        ],
+        "taskType": "writing",
+        "inputsNeeded": [
+          "sections.publication.paper_outline",
+          "sections.publication.submission_checklist"
+        ],
+        "suggestedSkills": [
+          "inno-paper-writing",
+          "inno-reference-audit"
+        ],
+        "sourceBlueprintId": "quality_gate.publication",
+        "nextActionPrompt": "Task: Review publication-stage quality gate\nStage: publication\nUser inputs: The paper must clearly separate validated simulation results from future deployment discussion and include coherent artifacts for submission.\nSuggested skills: inno-paper-writing, inno-reference-audit\nQuality gate: The paper clearly separates validated simulation results from future deployment discussion; the contribution narrative, figures, and reproducibility artifacts are coherent for BIBM submission.\nStage guidance: Approve only if the narrative and artifacts are internally consistent and evidence-backed.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:15:22Z"
+      },
+      {
+        "id": 22,
+        "title": "Refine slide outline",
+        "description": "Turn the promotion plan into a concise conference presentation arc that matches the paper claims.",
+        "status": "done",
+        "stage": "promotion",
+        "priority": "low",
+        "dependencies": [
+          21
+        ],
+        "taskType": "scripting",
+        "inputsNeeded": [
+          "sections.promotion.slide_outline"
+        ],
+        "suggestedSkills": [
+          "making-academic-presentations"
+        ],
+        "sourceBlueprintId": "required_element.sections.promotion.slide_outline",
+        "nextActionPrompt": "Task: Refine slide outline\nStage: promotion\nUser inputs: Planned talk covers problem, gap, system architecture, synthetic data, results, safety analysis, limitations, and future deployment.\nSuggested skills: making-academic-presentations\nStage guidance: Keep the talk aligned with the paper and explicit about simulation scope.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:17:18Z"
+      },
+      {
+        "id": 23,
+        "title": "Draft slide outline and narration for the agentic RPM paper",
+        "description": "Create a concise conference presentation story around motivation, workflow, evaluation, safety analysis, and future work.",
+        "status": "done",
+        "stage": "promotion",
+        "priority": "low",
+        "dependencies": [
+          22
+        ],
+        "taskType": "scripting",
+        "inputsNeeded": [
+          "sections.promotion.slide_outline",
+          "sections.publication.paper_outline"
+        ],
+        "suggestedSkills": [
+          "making-academic-presentations"
+        ],
+        "sourceBlueprintId": "promotion_draft_outline",
+        "nextActionPrompt": "Task: Draft slide outline and narration for the agentic RPM paper\nStage: promotion\nUser inputs: Presentation should communicate motivation, workflow, evaluation, safety framing, and future OpenClaw integration without overstating deployment readiness.\nSuggested skills: making-academic-presentations\nStage guidance: Build a short, technically credible talk track suitable for a conference audience.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:17:18Z"
+      },
+      {
+        "id": 24,
+        "title": "Prepare project homepage content and asset plan",
+        "description": "Organize the homepage content around the problem, approach, key results, reproducibility assets, and future OpenClaw integration.",
+        "status": "done",
+        "stage": "promotion",
+        "priority": "low",
+        "dependencies": [
+          23
+        ],
+        "taskType": "delivery",
+        "inputsNeeded": [
+          "sections.promotion.homepage_plan"
+        ],
+        "suggestedSkills": [
+          "making-academic-presentations"
+        ],
+        "sourceBlueprintId": "promotion_prepare_homepage",
+        "nextActionPrompt": "Task: Prepare project homepage content and asset plan\nStage: promotion\nUser inputs: Homepage should present the paper, simulator, synthetic data note, key results, and future deployment roadmap.\nSuggested skills: making-academic-presentations\nStage guidance: Keep the page technically clear and aligned with the paper claims.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:17:18Z"
+      },
+      {
+        "id": 25,
+        "title": "Generate slide visuals from paper figures and workflow diagrams",
+        "description": "Turn the paper outline and figures into presentation-quality slides that preserve workflow clarity and evaluation takeaways.",
+        "status": "done",
+        "stage": "promotion",
+        "priority": "low",
+        "dependencies": [
+          24
+        ],
+        "taskType": "rendering",
+        "inputsNeeded": [
+          "sections.publication.figures_tables_plan",
+          "sections.promotion.deck_style"
+        ],
+        "suggestedSkills": [
+          "making-academic-presentations"
+        ],
+        "sourceBlueprintId": "promotion_generate_slides",
+        "nextActionPrompt": "Task: Generate slide visuals from paper figures and workflow diagrams\nStage: promotion\nUser inputs: Slide deck should use conference-style technical visuals with workflow diagrams and compact result tables.\nSuggested skills: making-academic-presentations\nStage guidance: Preserve figure fidelity and prioritize clarity over ornament.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:17:18Z"
+      },
+      {
+        "id": 26,
+        "title": "Generate narration assets for the paper walkthrough",
+        "description": "Prepare spoken narration or TTS inputs for a conference-style walkthrough of the simulator and results.",
+        "status": "done",
+        "stage": "promotion",
+        "priority": "low",
+        "dependencies": [
+          25
+        ],
+        "taskType": "narration",
+        "inputsNeeded": [
+          "sections.promotion.tts_config",
+          "sections.promotion.video_assembly_plan"
+        ],
+        "suggestedSkills": [
+          "making-academic-presentations"
+        ],
+        "sourceBlueprintId": "promotion_generate_narration",
+        "nextActionPrompt": "Task: Generate narration assets for the paper walkthrough\nStage: promotion\nUser inputs: Narration should suit a short technical talk or demo video covering the simulator workflow and results.\nSuggested skills: making-academic-presentations\nStage guidance: Keep the script concise, evidence-driven, and consistent with the paper.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:17:18Z"
+      },
+      {
+        "id": 27,
+        "title": "Review promotion-stage quality gate",
+        "description": "Validate that the slide deck, homepage plan, and narration stay faithful to the paper scope and technical claims.",
+        "status": "done",
+        "stage": "promotion",
+        "priority": "low",
+        "dependencies": [
+          26
+        ],
+        "taskType": "delivery",
+        "inputsNeeded": [
+          "sections.promotion.slide_outline",
+          "sections.promotion.homepage_plan"
+        ],
+        "suggestedSkills": [
+          "making-academic-presentations"
+        ],
+        "sourceBlueprintId": "quality_gate.promotion",
+        "nextActionPrompt": "Task: Review promotion-stage quality gate\nStage: promotion\nUser inputs: Promotion materials must reflect the simulation scope, clinician-in-the-loop design, and future deployment path accurately.\nSuggested skills: making-academic-presentations\nQuality gate: The presentation materials accurately reflect the simulation scope and the clinician-in-the-loop design; the homepage and deck communicate the technical workflow, safety framing, and future deployment path.\nStage guidance: Approve only if the outward-facing materials remain technically honest and consistent.\nPlease produce a concrete next-step plan and execution output. If user inputs are provided, polish and make them concrete, then write updates back to .pipeline/docs/research_brief.json.",
+        "createdAt": "2026-03-27T18:38:34Z",
+        "updatedAt": "2026-03-27T19:17:18Z"
+      }
+    ]
+  }
+}
