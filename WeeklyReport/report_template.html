@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Health Report — {{ stats.patient_name }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a1a;
+      --ink-light: #4a4a4a;
+      --ink-mute:  #8a8a8a;
+      --cream:     #f7f4ef;
+      --paper:     #fdfcfa;
+      --accent:    #2d6a4f;
+      --accent-lt: #52b788;
+      --warn:      #c9510c;
+      --warn-lt:   #f4a261;
+      --rule:      #ddd9d0;
+      --card:      #ffffff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 48px 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      right: -60px; bottom: -80px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      border: 60px solid rgba(255,255,255,0.04);
+    }
+    .header-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-lt);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .header-sub {
+      color: rgba(247,244,239,0.55);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+    .header-meta {
+      margin-top: 28px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .meta-item { display: flex; flex-direction: column; }
+    .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(247,244,239,0.4); }
+    .meta-value { font-size: 13px; color: rgba(247,244,239,0.85); font-weight: 500; margin-top: 2px; }
+
+    /* ── Layout ── */
+    .body-wrap { max-width: 1080px; margin: 0 auto; padding: 48px 32px 80px; }
+
+    /* ── Metric Grid ── */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .metric-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 18px 20px 16px;
+    }
+    .metric-card.accent { border-color: var(--accent-lt); background: #f0faf5; }
+    .metric-card.warn   { border-color: var(--warn-lt);   background: #fff6f0; }
+    .metric-icon { font-size: 18px; margin-bottom: 8px; }
+    .metric-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .metric-card.accent .metric-value { color: var(--accent); }
+    .metric-card.warn   .metric-value { color: var(--warn);   }
+    .metric-unit { font-size: 13px; color: var(--ink-mute); font-weight: 300; margin-left: 2px; }
+    .metric-label { font-size: 11px; color: var(--ink-mute); margin-top: 6px; letter-spacing: 0.03em; }
+    .metric-sub { font-size: 11px; color: var(--ink-mute); margin-top: 3px; font-style: italic; }
+
+    /* ── Daily Table ── */
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .table-wrap table { width: 100%; border-collapse: collapse; }
+    .table-wrap thead tr { background: var(--cream); }
+    .table-wrap th {
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-mute); font-weight: 500;
+      padding: 12px 16px; text-align: left;
+      border-bottom: 1px solid var(--rule);
+    }
+    .table-wrap td {
+      padding: 11px 16px;
+      font-size: 13px; color: var(--ink-light);
+      border-bottom: 1px solid var(--rule);
+    }
+    .table-wrap tr:last-child td { border-bottom: none; }
+    .table-wrap tr:nth-child(even) td { background: #fafaf8; }
+    .table-wrap td:first-child { font-weight: 500; color: var(--ink); }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .badge-good { background: #e8f5ee; color: var(--accent); }
+    .badge-warn { background: #fff0e8; color: var(--warn);   }
+    .badge-ok   { background: #f0f0f0; color: #666;          }
+
+    /* ── Narrative Sections ── */
+    .narrative-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 680px) { .narrative-grid { grid-template-columns: 1fr; } }
+
+    .narrative-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 28px 28px 24px;
+    }
+    .narrative-card.full { grid-column: 1 / -1; }
+    .narrative-card.accent-border { border-top: 3px solid var(--accent); }
+    .narrative-card.warn-border   { border-top: 3px solid var(--warn-lt); }
+
+    .narrative-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 14px;
+      color: var(--ink);
+    }
+    .narrative-card p {
+      color: var(--ink-light);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-mute);
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+      margin-top: 24px;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-eyebrow">Health Intelligence Report</div>
+  <h1>{{ stats.patient_name }}</h1>
+  <div class="header-sub">Weekly Wellness Summary</div>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Period</span>
+      <span class="meta-value">{{ stats.week_start }} – {{ stats.week_end }}</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Report Generated</span>
+      <span class="meta-value">{{ generated_at }}</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Analysis Engine</span>
+      <span class="meta-value">Gemini 1.5 Flash via LangChain</span>
+    </div>
+  </div>
+</div>
+
+<div class="body-wrap">
+
+  <!-- ── METRIC CARDS ── -->
+  <div class="section-label">Weekly Snapshot</div>
+  <div class="metric-grid">
+
+    <div class="metric-card {% if stats.avg_steps >= 8000 %}accent{% elif stats.avg_steps < 5000 %}warn{% endif %}">
+      <div class="metric-icon">🦶</div>
+      <div class="metric-value">{{ "{:,}".format(stats.avg_steps) }}</div>
+      <div class="metric-label">Avg Daily Steps</div>
+      <div class="metric-sub">{{ stats.steps_goal_met_days }}/7 days hit 10k</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_sleep >= 7.5 %}accent{% elif stats.avg_sleep < 6.5 %}warn{% endif %}">
+      <div class="metric-icon">🌙</div>
+      <div class="metric-value">{{ stats.avg_sleep }}<span class="metric-unit">hrs</span></div>
+      <div class="metric-label">Avg Sleep</div>
+      <div class="metric-sub">Quality: {{ stats.avg_sleep_quality }}/10</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_resting_hr <= 75 %}accent{% elif stats.avg_resting_hr > 85 %}warn{% endif %}">
+      <div class="metric-icon">❤️</div>
+      <div class="metric-value">{{ stats.avg_resting_hr }}</div>
+      <div class="metric-label">Avg Resting HR</div>
+      <div class="metric-sub">Max recorded: {{ stats.max_hr_recorded }} bpm</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_hrv >= 50 %}accent{% elif stats.avg_hrv < 30 %}warn{% endif %}">
+      <div class="metric-icon">📈</div>
+      <div class="metric-value">{{ stats.avg_hrv }}</div>
+      <div class="metric-label">Avg HRV</div>
+      <div class="metric-sub">Best: {{ stats.best_hrv_day }}</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_spo2 >= 97 %}accent{% elif stats.avg_spo2 < 96 %}warn{% endif %}">
+      <div class="metric-icon">🩸</div>
+      <div class="metric-value">{{ stats.avg_spo2 }}<span class="metric-unit">%</span></div>
+      <div class="metric-label">Avg Blood Oxygen</div>
+      <div class="metric-sub">Min: {{ stats.min_spo2 }}%</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_stress <= 4 %}accent{% elif stats.avg_stress >= 7 %}warn{% endif %}">
+      <div class="metric-icon">🧠</div>
+      <div class="metric-value">{{ stats.avg_stress }}</div>
+      <div class="metric-label">Avg Stress Level</div>
+      <div class="metric-sub">{{ stats.high_stress_days }} high-stress days</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_water >= 2.5 %}accent{% elif stats.avg_water < 1.8 %}warn{% endif %}">
+      <div class="metric-icon">💧</div>
+      <div class="metric-value">{{ stats.avg_water }}<span class="metric-unit">L</span></div>
+      <div class="metric-label">Avg Hydration</div>
+      <div class="metric-sub">Goal met {{ stats.hydration_goal_met }}/7 days</div>
+    </div>
+
+    <div class="metric-card {% if stats.avg_calorie_balance > 0 %}accent{% elif stats.avg_calorie_balance < -300 %}warn{% endif %}">
+      <div class="metric-icon">🔥</div>
+      <div class="metric-value">{% if stats.avg_calorie_balance > 0 %}+{% endif %}{{ stats.avg_calorie_balance }}</div>
+      <div class="metric-label">Avg Calorie Balance</div>
+      <div class="metric-sub">Burned {{ "{:,}".format(stats.avg_calories_burned) }} · Consumed {{ "{:,}".format(stats.avg_calories_consumed) }}</div>
+    </div>
+
+  </div>
+
+  <!-- ── DAILY TABLE ── -->
+  <div class="section-label">Day-by-Day Breakdown</div>
+  <div class="table-wrap" style="margin-bottom: 48px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Steps</th>
+          <th>Sleep</th>
+          <th>Resting HR</th>
+          <th>HRV</th>
+          <th>Stress</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in stats.daily_summary %}
+        <tr>
+          <td>{{ row.day }}</td>
+          <td>
+            {{ "{:,}".format(row.steps) }}
+            {% if row.steps >= 10000 %}
+              <span class="badge badge-good">Goal ✓</span>
+            {% elif row.steps < 5000 %}
+              <span class="badge badge-warn">Low</span>
+            {% endif %}
+          </td>
+          <td>
+            {{ row.sleep_hours }}h
+            {% if row.sleep_hours >= 7.5 %}
+              <span class="badge badge-good">Good</span>
+            {% elif row.sleep_hours < 6.5 %}
+              <span class="badge badge-warn">Short</span>
+            {% endif %}
+          </td>
+          <td>
+            {{ row.heart_rate_avg }} bpm
+            {% if row.heart_rate_avg > 85 %}
+              <span class="badge badge-warn">High</span>
+            {% endif %}
+          </td>
+          <td>{{ row.hrv }} ms</td>
+          <td>
+            {{ row.stress }}/10
+            {% if row.stress >= 7 %}
+              <span class="badge badge-warn">Elevated</span>
+            {% elif row.stress <= 3 %}
+              <span class="badge badge-good">Low</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── LLM NARRATIVE ── -->
+  <div class="section-label">AI-Generated Analysis · Gemini 1.5 Flash</div>
+
+  <div class="narrative-grid">
+    <div class="narrative-card full accent-border">
+      <h3>Executive Summary</h3>
+      <p>{{ narrative.executive_summary }}</p>
+    </div>
+
+    <div class="narrative-card accent-border">
+      <h3>Key Trends &amp; Highlights</h3>
+      <p>{{ narrative.key_trends }}</p>
+    </div>
+
+    <div class="narrative-card warn-border">
+      <h3>Areas of Concern</h3>
+      <p>{{ narrative.concerns }}</p>
+    </div>
+
+    <div class="narrative-card full accent-border">
+      <h3>Personalized Recommendations</h3>
+      <p>{{ narrative.recommendations }}</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    Generated by the Health AI Agent · Powered by LangChain + Gemini 1.5 Flash · For informational purposes only
+  </div>
+
+</div>
+</body>
+</html>
